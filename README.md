@@ -1,11 +1,11 @@
-Laptop
-======
+# Laptop-china
 
-Laptop is a script to set up your Max OS X laptop as a Rails development machine.
 
-Install
--------
+Laptop-china is a script for Chinese to set up your Max OS X or Ubuntu laptop as a Rails development machine.
 
+## Install
+
+### Mac OS X
 Before you run this script, you need compilers like GCC, LLVM, and Clang.
 
 Get them via [OS X GCC Installer](https://github.com/kennethreitz/osx-gcc-installer/)
@@ -15,10 +15,14 @@ if you're on Lion (OS X 10.7).
 
 Run the script:
 
-    bash < <(curl -s https://raw.github.com/thoughtbot/laptop/master/mac)
+    bash < <(curl -s https://raw.github.com/fenprace/laptop-china/master/mac)
 
-What it sets up
----------------
+### Ubuntu
+Run the script:
+
+    bash < <(curl -s https://raw.github.com/fenprace/laptop-china/master/ubuntu)
+
+## What it sets up
 
 * SSH public key (for authenticating with services like Github and Heroku)
 * Homebrew (for managing operating system libraries)

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 echo "Checking for SSH key, generating one if it doesn't exist ..."
   [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
 
@@ -7,40 +8,32 @@ echo "Copying public key to clipboard. Paste it into your Github account ..."
   [[ -f ~/.ssh/id_rsa.pub ]] && cat ~/.ssh/id_rsa.pub | pbcopy
   open https://github.com/account/ssh
 
-echo "Installing Homebrew, a good OS X package manager ..."
-  /usr/bin/ruby -e "$(/usr/bin/curl -fksSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
-  brew update
-
-echo "Put Homebrew location earlier in PATH ..."
-  echo "
-# recommended by brew doctor
-export PATH='/usr/local/bin:$PATH'" >> ~/.zshrc
-  source ~/.zshrc
-
 echo "Installing Postgres, a good open source relational database ..."
-  brew install postgres --no-python
+  sudo apt-get install postgresql
 
 echo "Installing Redis, a good key-value database ..."
-  brew install redis
+  sudo apt-get install redis
 
 echo "Installing ack, a good way to search through files ..."
-  brew install ack
+  sudo apt-get install ack
 
 echo "Installing tmux, a good way to save project state and switch between projects ..."
-  brew install tmux
+  sudo apt-get install tmux
 
 echo "Installing ImageMagick, good for cropping and re-sizing images ..."
-  brew install imagemagick
+  sudo apt-get install imagemagick
 
 echo "Installing QT, used by Capybara Webkit for headless Javascript integration testing ..."
-  brew install qt
+  sudo apt-get install qt
 
 echo "Installing RVM (Ruby Version Manager) ..."
   bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
   echo "
 # RVM
-[[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] && source '/Users/`whoami`/.rvm/scripts/rvm'" >> ~/.zshrc
-  source ~/.zshrc
+[[ $SHELL == "/bin/zsh" ]] && shellrc="~/.zshrc"
+[[ $SHELL == "/bin/bash" ]] && shellrc="~/.bashrc"
+[[ -s "/home/$HOME/.rvm/scripts/rvm" ]] && source "/home/$HOME/.rvm/scripts/rvm"" >> $shellrc
+  source $shellrc
 
 bash < <(curl -s https://raw.github.com/fenprace/laptop-china/master/ruby)
 bash < <(curl -s https://raw.github.com/fenprace/laptop-china/master/heroku)

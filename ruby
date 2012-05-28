@@ -1,6 +1,11 @@
+#!/usr/bin/env bash
+
 echo "Installing Ruby 1.9.2 stable and making it the default Ruby ..."
   rvm install 1.9.2-p290
   rvm use 1.9.2 --default
+
+echo "Add ruby.taobao.org to the gem source ..."
+  gem source -a "http://ruby.taoba.org/"
 
 echo "Installing Rails to write and run web applications ..."
   gem install rails --no-rdoc --no-ri
