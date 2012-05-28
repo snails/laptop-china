@@ -41,6 +41,11 @@ echo "Installing RVM (Ruby Version Manager) ..."
 # RVM
 [[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] && source '/Users/`whoami`/.rvm/scripts/rvm'" >> ~/.zshrc
   source ~/.zshrc
+# RVM
+[[ $SHELL == "/bin/zsh" ]] && shellrc="~/.zshrc"
+[[ $SHELL == "/bin/bash" ]] && shellrc="~/.bashrc"
+[[ -s "/Users/`whoami`/.rvm/scripts/rvm" ]] && source "/Users/`whoami`/.rvm/scripts/rvm"" >> $shellrc
+  source $shellrc
 
 bash < <(curl -s https://raw.github.com/fenprace/laptop-china/master/ruby)
 bash < <(curl -s https://raw.github.com/fenprace/laptop-china/master/heroku)
