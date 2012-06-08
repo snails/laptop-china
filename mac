@@ -1,32 +1,51 @@
 #!/usr/bin/env bash
-
+#It is only works on mac, if you want to make it work, please modify it on your own, thx.
+#SSH
 echo "Checking for SSH key, generating one if it doesn't exist ..."
   [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
 
 echo "Copying public key to clipboard. Paste it into your Github account ..."
   [[ -f ~/.ssh/id_rsa.pub ]] && cat ~/.ssh/id_rsa.pub | pbcopy
   open https://github.com/account/ssh
+  
+#Oh-my-zsh
+echo "Installing oh-my-zsh profiles …"
+curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
 
+# RVM
 echo "Installing RVM (Ruby Version Manager) ..."
   bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
   echo "
-# RVM
+
 [[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] && source '/Users/`whoami`/.rvm/scripts/rvm'" >> ~/.zshrc
   source ~/.zshrc
-# RVM
+
 [[ $SHELL == "/bin/zsh" ]] && shellrc="~/.zshrc"
 [[ $SHELL == "/bin/bash" ]] && shellrc="~/.bashrc"
-[[ -s "/Users/`whoami`/.rvm/scripts/rvm" ]] && source "/Users/`whoami`/.rvm/scripts/rvm"" >> $shellrc
+[[ -s "/Users/`whoami`/.rvm/scripts/rvm" ]] && source "/Users/`whoami`/.rvm/scripts/rvm" >> $shellrc
   source $shellrc
 
-#Ruby
-echo "Installing Ruby 1.9.3 ..."
-  rvm install 1.9.3
-  rvm use 1.9.3 --default
-  rvm 1.9.3@rails32 --default
-#Set Gem Sources, Using TaoBao's gem sources.
-  gem sources --remove http://rubygems.org/
-  gem sources -a http://ruby.taobao.org/
-#Install rails
-echo "Installing Rails..."
-  gem install rails 
+#modify the default URL to TB URL
+sed -i '' 's/ftp.ruby-lang.org\/pub/ruby.taobao.org\/mirrors/g' $rvm_path/config/db
+
+echo "Installing ruby readline ..."
+rvm pkg install readline
+rvm get head
+
+echo "Installing ruby 1.9.3 ..."
+#rvm install 1.8.7 --patch railsexpress
+#rvm install 1.9.2 --patch railsexpress
+rvm install 1.9.3 --with-readline-dir=$rvm_path/usr --patch railsexpress
+
+rvm use 1.9.3 --default
+rvm 1.9.3@rails32 --default
+#remove the default rubygems source
+gem sources -r http://rubygems.org/
+gem sources -a http://ruby.taobao.org/
+
+echo "Changing .gemrc to not install the ri and rdoc of rails…"
+echo "gem: --no-ri --no-rdoc" >> /Users/`whoami`/.gemrc
+
+echo "Installing the newest version of rails ..."
+gem install rails
+
